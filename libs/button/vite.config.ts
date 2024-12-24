@@ -1,22 +1,58 @@
+/// <reference types='vitest' />
 import { defineConfig } from 'vite';
-import dts from 'vite-plugin-dts'; // To generate type declarations
+import dts from 'vite-plugin-dts';
+import * as path from 'path';
+import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig({
+  root: __dirname,
+  cacheDir: '../../node_modules/.vite/libs/button',
+  plugins: [
+    nxViteTsPaths(),
+    nxCopyAssetsPlugin(['*.md']),
+    dts({
+      insertTypesEntry: true,
+      entryRoot: 'src',
+      tsconfigPath: './tsconfig.lib.json',
+    }),
+  ],
+  // Uncomment this if you are using workers.
+  // worker: {
+  //  plugins: [ nxViteTsPaths() ],
+  // },
+  // Configuration for building your library.
+  // See: https://vitejs.dev/guide/build.html#library-mode
   build: {
+    outDir: '../../dist/libs/button',
+    emptyOutDir: true,
+    reportCompressedSize: true,
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
     lib: {
-      entry: '/src/index.ts', // Adjust this if needed
-      name: 'Button',
-      fileName: (format) => `button.${format}.js`,
+      // Could also be a dictionary or array of multiple entry points.
+      entry: 'src/index.ts',
+      name: 'button',
+      fileName: 'index',
+      // Change this to the formats you want to support.
+      // Don't forget to update your package.json as well.
       formats: ['es', 'umd'],
     },
     rollupOptions: {
-      external: ['lit'],
-      output: {
-        globals: {
-          lit: 'Lit',
-        },
-      },
+      // External packages that should not be bundled into your library.
+      external: [],
     },
   },
-  plugins: [dts()],
+  test: {
+    watch: false,
+    globals: true,
+    environment: 'node',
+    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    reporters: ['default'],
+    coverage: {
+      reportsDirectory: '../../coverage/libs/button',
+      provider: 'v8',
+    },
+  },
 });
