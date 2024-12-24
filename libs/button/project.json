@@ -1,0 +1,17 @@
+{
+  "name": "button",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/button/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nrwl/vite:build",
+      "options": {
+        "outputPath": "dist/libs/button",
+        "esbuildTarget": "esnext",
+        "viteConfig": "libs/button/vite.config.ts"
+      }
+    }
+  }
+}
