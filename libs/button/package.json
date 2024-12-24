@@ -1,5 +1,5 @@
 {
-  "name": "button",
+  "name": "@algarra-poc-design-system/button",
   "version": "1.0.0",
   "dependencies": {},
   "main": "./index.umd.js",
