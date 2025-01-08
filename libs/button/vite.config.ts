@@ -1,9 +1,9 @@
 /// <reference types='vitest' />
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
-import * as path from 'path';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
+import tailwindcss from 'tailwindcss';
 
 export default defineConfig({
   root: __dirname,
@@ -42,6 +42,15 @@ export default defineConfig({
     rollupOptions: {
       // External packages that should not be bundled into your library.
       external: [],
+    },
+  },
+  css: {
+    postcss: {
+      plugins: [
+        require('postcss-import'), // Enables @import in CSS files
+        require('autoprefixer'), // Adds vendor prefixes to CSS
+        tailwindcss(), // Add TailwindCSS here
+      ],
     },
   },
   test: {

@@ -1,8 +1,9 @@
 {
-  "name": "@algarra-poc-design-system/button",
-  "version": "1.0.0",
+  "name": "@algarra/button",
+  "version": "1.0.3",
   "dependencies": {},
   "main": "./index.umd.js",
   "module": "./index.mjs",
-  "typings": "./index.d.ts"
+  "typings": "./index.d.ts",
+  "scripts": {}
 }
